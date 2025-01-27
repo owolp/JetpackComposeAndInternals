@@ -43,16 +43,16 @@ fun isAlignedToCorner(corner: Corner): SemanticsMatcher =
             false
         } else {
             when (corner) {
-                TopLeft -> it.positionInRoot == Offset(0f, 0f)
-                TopRight -> it.positionInRoot == Offset(
+                TopStart -> it.positionInRoot == Offset(0f, 0f)
+                TopEnd -> it.positionInRoot == Offset(
                     (parent.size.width - it.size.width).toFloat(),
                     0f
                 )
-                BottomLeft -> it.positionInRoot == Offset(
+                BottomStart -> it.positionInRoot == Offset(
                     0f,
                     (parent.size.height - it.size.height).toFloat()
                 )
-                BottomRight -> it.positionInRoot == Offset(
+                BottomEnd -> it.positionInRoot == Offset(
                     (parent.size.width - it.size.width).toFloat(),
                     (parent.size.height - it.size.height).toFloat()
                 )
