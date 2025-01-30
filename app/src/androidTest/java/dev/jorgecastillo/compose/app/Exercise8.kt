@@ -6,7 +6,6 @@ package dev.jorgecastillo.compose.app
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Button
-import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -99,7 +98,7 @@ class Exercise8 {
                         SideEffect { firstRecompositionCounter.increment() }
 
                         MyRow {
-                            Text("Text is [read the CompositionLocal value here]")
+                            Text("Text is ${localTest1.current}")
                         }
                     }
 
@@ -133,7 +132,7 @@ class Exercise8 {
                         SideEffect { firstRecompositionCounter.increment() }
 
                         MyRow {
-                            Text("Text is [read the CompositionLocal value here]")
+                            Text("Text is ${localTest2.current}")
                         }
                     }
 
@@ -157,8 +156,13 @@ class Exercise8 {
     }
 }
 
-private val localTest1: ProvidableCompositionLocal<Int> = TODO()
-private val localTest2: ProvidableCompositionLocal<Int> = TODO()
+private val localTest1: ProvidableCompositionLocal<Int> = compositionLocalOf {
+    0
+}
+
+private val localTest2: ProvidableCompositionLocal<Int> = staticCompositionLocalOf {
+    0
+}
 
 val firstRecompositionCounter = RecompositionCounter()
 val secondRecompositionCounter = RecompositionCounter()
