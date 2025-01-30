@@ -41,6 +41,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.printToLog
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.jorgecastillo.compose.app.data.FakeSpeakerRepository
 import dev.jorgecastillo.compose.app.models.Speaker
@@ -169,6 +170,31 @@ private fun AdaptativeScreen() {
     val friends = speakers.drop(1)
 
     // Add your code here
+    BoxWithConstraints {
+        val isTablet = maxWidth >= 600.dp
+        if (isTablet) {
+            // Tablet Layout
+            Row {
+                ProfileScreen(
+                    modifier = Modifier
+                        .width(320.dp)
+                        .fillMaxHeight(),
+                    speaker = speaker
+                )
+                FriendsScreen(
+                    modifier = Modifier
+                        .weight(1F),
+                    speakers = friends
+                )
+            }
+        } else {
+            // Phone Layout
+            ProfileScreen(
+                modifier = Modifier.fillMaxSize(),
+                speaker = speaker
+            )
+        }
+    }
 }
 
 @Composable
@@ -237,4 +263,23 @@ private fun avatarResForId(id: String): Int {
     val localContext = LocalContext.current
     return localContext.resources
         .getIdentifier("avatar_$id", "drawable", localContext.packageName)
+}
+
+
+@Preview(
+    widthDp = 1024,
+    heightDp = 800
+)
+@Composable
+fun AdaptativeTabletScreenPreview() = ComposeAndInternalsTheme {
+    AdaptativeScreen()
+}
+
+@Preview(
+    widthDp = 800,
+    heightDp = 1024
+)
+@Composable
+fun AdaptativePhoneScreenPreview() = ComposeAndInternalsTheme {
+    AdaptativeScreen()
 }
