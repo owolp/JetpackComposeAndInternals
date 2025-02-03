@@ -24,12 +24,16 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.booleanResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -103,6 +107,29 @@ class Exercise7Test {
     }
 
     @Test
+    fun phone_ui_displayed_for_phones_hybrid() {
+        // Start the app
+        composeTestRule.setContent {
+            with(LocalDensity.current) {
+                val widthDp = 1080.toDp()
+                val heightDp = 2400.toDp()
+
+                ComposeAndInternalsTheme {
+                    // Emulate phone size with a Box
+                    Box(Modifier.size(widthDp, heightDp)) {
+                        HybridAdaptativeScreen()
+                    }
+                }
+            }
+        }
+
+        composeTestRule.onNodeWithText("John Doe").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Uber").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 7")
+    }
+
+    @Test
     fun tablet_ui_displayed_for_tablets() {
         // Start the app
         composeTestRule.setContent {
@@ -114,6 +141,126 @@ class Exercise7Test {
                     // Emulate tablet size with a Box
                     Box(Modifier.size(widthDp, heightDp)) {
                         AdaptativeScreen()
+                    }
+                }
+            }
+        }
+
+        composeTestRule.onNodeWithText("John Doe").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Uber").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 7")
+
+        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Sylvia Lotte"))
+        composeTestRule.onNodeWithText("Sylvia Lotte").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Lyft").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 7")
+
+        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Apis Anoubis"))
+        composeTestRule.onNodeWithText("Apis Anoubis").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Twitter").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 7")
+
+        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Aeolus Phrixos"))
+        composeTestRule.onNodeWithText("Aeolus Phrixos").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Meta").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 7")
+
+        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Oz David"))
+        composeTestRule.onNodeWithText("Oz David").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Apple").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 7")
+
+        composeTestRule.onNodeWithTag("SpeakersList")
+            .performScrollToNode(hasText("Jagoda Viktorija"))
+        composeTestRule.onNodeWithText("Jagoda Viktorija").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Google").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 7")
+
+        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Dympna Bride"))
+        composeTestRule.onNodeWithText("Dympna Bride").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Snapchat").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 7")
+    }
+
+    @Test
+    fun tablet_ui_displayed_for_tablets_hybrid() {
+        // Start the app
+        composeTestRule.setContent {
+            with(LocalDensity.current) {
+                val widthDp = 2400.toDp()
+                val heightDp = 1080.toDp()
+
+                ComposeAndInternalsTheme {
+                    // Emulate tablet size with a Box
+                    Box(Modifier.size(widthDp, heightDp)) {
+                        HybridAdaptativeScreen()
+                    }
+                }
+            }
+        }
+
+        composeTestRule.onNodeWithText("John Doe").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Uber").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 7")
+
+        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Sylvia Lotte"))
+        composeTestRule.onNodeWithText("Sylvia Lotte").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Lyft").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 7")
+
+        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Apis Anoubis"))
+        composeTestRule.onNodeWithText("Apis Anoubis").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Twitter").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 7")
+
+        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Aeolus Phrixos"))
+        composeTestRule.onNodeWithText("Aeolus Phrixos").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Meta").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 7")
+
+        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Oz David"))
+        composeTestRule.onNodeWithText("Oz David").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Apple").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 7")
+
+        composeTestRule.onNodeWithTag("SpeakersList")
+            .performScrollToNode(hasText("Jagoda Viktorija"))
+        composeTestRule.onNodeWithText("Jagoda Viktorija").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Google").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 7")
+
+        composeTestRule.onNodeWithTag("SpeakersList").performScrollToNode(hasText("Dympna Bride"))
+        composeTestRule.onNodeWithText("Dympna Bride").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Snapchat").assertIsDisplayed()
+
+        composeTestRule.onRoot().printToLog("Exercise 7")
+    }
+
+    @Test
+    fun tablet_ui_displayed_for_tablets_composition_local() {
+        // Start the app
+        composeTestRule.setContent {
+            with(LocalDensity.current) {
+                val widthDp = 2400.toDp()
+                val heightDp = 1080.toDp()
+
+                Screen {
+                    // Emulate tablet size with a Box
+                    Box(Modifier.size(widthDp, heightDp)) {
+                        HybridAdaptativeCompositionLocalScreen()
                     }
                 }
             }
@@ -194,6 +341,70 @@ private fun AdaptativeScreen() {
                 speaker = speaker
             )
         }
+    }
+}
+
+@Composable
+private fun HybridAdaptativeScreen() {
+    val speakers = FakeSpeakerRepository().getSpeakers()
+    val speaker = speakers.first()
+    val friends = speakers.drop(1)
+
+    // Add your code here
+    val isTablet = LocalConfiguration.current.screenWidthDp >= 600
+//    val isTablet = booleanResource(R.bool.is_tablet)
+    if (isTablet) {
+        // Tablet Layout
+        Row {
+            ProfileScreen(
+                modifier = Modifier
+                    .width(320.dp)
+                    .fillMaxHeight(),
+                speaker = speaker
+            )
+            FriendsScreen(
+                modifier = Modifier
+                    .weight(1F),
+                speakers = friends
+            )
+        }
+    } else {
+        // Phone Layout
+        ProfileScreen(
+            modifier = Modifier.fillMaxSize(),
+            speaker = speaker
+        )
+    }
+}
+
+@Composable
+private fun HybridAdaptativeCompositionLocalScreen() {
+    val speakers = FakeSpeakerRepository().getSpeakers()
+    val speaker = speakers.first()
+    val friends = speakers.drop(1)
+
+    // Add your code here
+    if (IsTablet.current) {
+        // Tablet Layout
+        Row {
+            ProfileScreen(
+                modifier = Modifier
+                    .width(320.dp)
+                    .fillMaxHeight(),
+                speaker = speaker
+            )
+            FriendsScreen(
+                modifier = Modifier
+                    .weight(1F),
+                speakers = friends
+            )
+        }
+    } else {
+        // Phone Layout
+        ProfileScreen(
+            modifier = Modifier.fillMaxSize(),
+            speaker = speaker
+        )
     }
 }
 
@@ -282,4 +493,19 @@ fun AdaptativeTabletScreenPreview() = ComposeAndInternalsTheme {
 @Composable
 fun AdaptativePhoneScreenPreview() = ComposeAndInternalsTheme {
     AdaptativeScreen()
+}
+
+@Composable
+fun Screen(content: @Composable () -> Unit) {
+    CompositionLocalProvider(
+        IsTablet provides booleanResource(R.bool.is_tablet)
+    ) {
+        ComposeAndInternalsTheme {
+            content()
+        }
+    }
+}
+
+private val IsTablet = staticCompositionLocalOf<Boolean> {
+    error("No Tablet provided")
 }
